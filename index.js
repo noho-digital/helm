@@ -223,8 +223,12 @@ async function run() {
     } else {
       process.env.HELM_HOME = "/root/.helm/"
     }
-    
-    if (nonatomic !== true) args.push(`--atomic`);
+
+    if (nonatomic === true) {
+      // no op
+    } else {
+      args.push(`--atomic`);
+    }
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
     if (version) args.push(`--set=app.version=${version}`);
