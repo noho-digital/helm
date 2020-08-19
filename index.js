@@ -4,6 +4,7 @@ const exec = require("@actions/exec");
 const fs = require("fs");
 const util = require("util");
 const Mustache = require("mustache");
+const { boolean } = require('boolean');
 
 const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
@@ -96,6 +97,11 @@ function getValueFiles(files) {
   return fileList.filter(f => !!f);
 }
 
+function getBooleanInput(name, options) {
+  let val = getInput(name, options)
+  return boolean(val)
+}
+
 function getInput(name, options) {
   const context = github.context;
   const deployment = context.payload.deployment;
@@ -169,6 +175,7 @@ async function run() {
     const repository = getInput("repository");
     const dryRun = core.getInput("dry-run");
     const secrets = getSecrets(core.getInput("secrets"));
+    const debug = getBooleanInput("debug");
 
     core.debug(`param: track = "${track}"`);
     core.debug(`param: release = "${release}"`);
@@ -185,6 +192,8 @@ async function run() {
     core.debug(`param: removeCanary = ${removeCanary}`);
     core.debug(`param: timeout = "${timeout}"`);
     core.debug(`param: repository = "${repository}"`);
+    core.debug(`param: debug = "${debug}"`);
+
 
 
     // Setup command options and arguments.
@@ -213,6 +222,7 @@ async function run() {
     if (chartVersion) args.push(`--version=${chartVersion}`);
     if (timeout) args.push(`--timeout=${timeout}`);
     if (repository) args.push(`--repo=${repository}`);
+    if (debug === true)  args.push(`--debug`)
     valueFiles.forEach(f => args.push(`--values=${f}`));
     args.push("--values=./values.yml");
 
