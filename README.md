@@ -35,8 +35,9 @@ payload if the action was triggered by a deployment.
 - `version`: Version of the app, usually commit sha works here.
 - `timeout`: specify a timeout for helm deployment
 - `repository`: specify the URL for a helm repo to come from
-- `debug`:  if set to `true` (or `T`, `1`, `on`, `yes`, etc...),  the action will add `--debug` 
-   to the args passed to `helm` or `helm3`. 
+- `debug`:  if `true` the action will add `--debug` to `helm` or `helm3` invocation. Also works if "t" or "y" or "yes" or "1" or "on" or any similar boolean value synonym.
+- `verbosity`: will set verbosity level for helm run, passing parameter as arg for `--v` flag supplied to `helm` or `helm3`.  Must be parseable as int, helm accepts values from 0 (lowest) to 6 (highest). 
+ 
 
 Additional parameters: If the action is being triggered by a deployment event
 and the `task` parameter in the deployment event is set to `"remove"` then this

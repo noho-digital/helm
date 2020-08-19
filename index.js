@@ -97,6 +97,11 @@ function getValueFiles(files) {
   return fileList.filter(f => !!f);
 }
 
+function getIntInput(name, options) {
+  let val= getInput(name, options)
+  return parseInt(val, 10)
+}
+
 function getBooleanInput(name, options) {
   let val = getInput(name, options)
   return boolean(val)
@@ -176,6 +181,7 @@ async function run() {
     const dryRun = core.getInput("dry-run");
     const secrets = getSecrets(core.getInput("secrets"));
     const debug = getBooleanInput("debug");
+    const verbosity = getIntInput("verbosity");
 
     core.debug(`param: track = "${track}"`);
     core.debug(`param: release = "${release}"`);
@@ -193,6 +199,7 @@ async function run() {
     core.debug(`param: timeout = "${timeout}"`);
     core.debug(`param: repository = "${repository}"`);
     core.debug(`param: debug = "${debug}"`);
+    core.debug(`param: verbosity = "${verbosity}"`);
 
 
 
@@ -222,7 +229,9 @@ async function run() {
     if (chartVersion) args.push(`--version=${chartVersion}`);
     if (timeout) args.push(`--timeout=${timeout}`);
     if (repository) args.push(`--repo=${repository}`);
-    if (debug === true)  args.push(`--debug`)
+    if (debug === true)  args.push(`--debug`);
+    if (!isNaN(verbosity)) args.push(`--v=${verbosity}`);
+
     valueFiles.forEach(f => args.push(`--values=${f}`));
     args.push("--values=./values.yml");
 
