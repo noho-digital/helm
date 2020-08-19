@@ -181,6 +181,7 @@ async function run() {
     const dryRun = core.getInput("dry-run");
     const secrets = getSecrets(core.getInput("secrets"));
     const debug = getBooleanInput("debug");
+    const atomic = getBooleanInput("atomic");
     const verbosity = getIntInput("verbosity");
 
     core.debug(`param: track = "${track}"`);
@@ -200,6 +201,7 @@ async function run() {
     core.debug(`param: repository = "${repository}"`);
     core.debug(`param: debug = "${debug}"`);
     core.debug(`param: verbosity = "${verbosity}"`);
+    core.debug(`param: atomic = "${atomic}"`);
 
 
 
@@ -210,7 +212,6 @@ async function run() {
       chart,
       "--install",
       "--wait",
-      "--atomic",
       `--namespace=${namespace}`,
     ];
 
@@ -222,7 +223,7 @@ async function run() {
     } else {
       process.env.HELM_HOME = "/root/.helm/"
     }
-
+    if (atomic !== false) args.push(`--atomic`);
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
     if (version) args.push(`--set=app.version=${version}`);
@@ -230,6 +231,7 @@ async function run() {
     if (timeout) args.push(`--timeout=${timeout}`);
     if (repository) args.push(`--repo=${repository}`);
     if (debug === true)  args.push(`--debug`);
+
     if (!isNaN(verbosity)) args.push(`--v=${verbosity}`);
 
     valueFiles.forEach(f => args.push(`--values=${f}`));
