@@ -181,7 +181,7 @@ async function run() {
     const dryRun = core.getInput("dry-run");
     const secrets = getSecrets(core.getInput("secrets"));
     const debug = getBooleanInput("debug");
-    const atomic = getBooleanInput("atomic");
+    const nonatomic = getBooleanInput("nonatomic");
     const verbosity = getIntInput("verbosity");
 
     core.debug(`param: track = "${track}"`);
@@ -201,7 +201,7 @@ async function run() {
     core.debug(`param: repository = "${repository}"`);
     core.debug(`param: debug = "${debug}"`);
     core.debug(`param: verbosity = "${verbosity}"`);
-    core.debug(`param: atomic = "${atomic}"`);
+    core.debug(`param: nonatomic = "${nonatomic}"`);
 
 
 
@@ -223,7 +223,8 @@ async function run() {
     } else {
       process.env.HELM_HOME = "/root/.helm/"
     }
-    if (atomic !== false) args.push(`--atomic`);
+    
+    if (nonatomic !== true) args.push(`--atomic`);
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
     if (version) args.push(`--set=app.version=${version}`);
