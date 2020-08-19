@@ -37,8 +37,10 @@ payload if the action was triggered by a deployment.
 - `repository`: specify the URL for a helm repo to come from
 - `debug`:  if `true` the action will add `--debug` to `helm` or `helm3` invocation. Also works if "t" or "y" or "yes" or "1" or "on" or any similar boolean value synonym. (default: off)
 - `verbosity`: will set verbosity level for helm run, passing parameter as arg for `--v` flag supplied to `helm` or `helm3`.  Must be parseable as int, helm accepts values from 0 (lowest) to 6 (highest). 
-- `nonatomic`: if `true` will remove  `--atomic` from the args passed to helm to  prevent it from cleaning up and rolling back on failure. Only use when debugging, and not in production!   
-
+- `nonatomic`: if `true` will remove  `--atomic` from the args passed to helm to  prevent it from cleaning up and rolling back on failure. Only use when debugging, and not in production! _
+ 
+    - IMPORTANT:  __Only set `nonatomic` in dev or test environments__!  After a failed deployment with this flag set you'll need to `helm delete [app-name]` (helm 3) or `helm delete [app-name] --purge (helm 2)` to have the action run successfully again afterwards. 
+     
 Additional parameters: If the action is being triggered by a deployment event
 and the `task` parameter in the deployment event is set to `"remove"` then this
 action will execute a `helm delete $service`
