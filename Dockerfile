@@ -17,9 +17,10 @@ RUN apk add --no-cache ca-certificates \
     curl -L ${BASE_URL}/${HELM_3_FILE} |tar xvz && \
     mv linux-amd64/helm /usr/bin/helm3 && \
     chmod +x /usr/bin/helm3 && \
-    rm -rf linux-amd64 && \
+    rm -rf linux-amd64
+    # FIXME: DISABLED, not working
     # Init version 2 helm:
-    helm init --client-only
+    # helm init --client-only
 
 ENV PYTHONPATH "/usr/lib/python3.8/site-packages/"
 
