@@ -183,7 +183,8 @@ async function run() {
     const debug = getBooleanInput("debug");
     const nonatomic = getBooleanInput("nonatomic");
     const verbosity = getIntInput("verbosity");
-
+    const force = getBooleanInput("force");
+    
     core.debug(`param: track = "${track}"`);
     core.debug(`param: release = "${release}"`);
     core.debug(`param: appName = "${appName}"`);
@@ -202,7 +203,7 @@ async function run() {
     core.debug(`param: debug = "${debug}"`);
     core.debug(`param: verbosity = "${verbosity}"`);
     core.debug(`param: nonatomic = "${nonatomic}"`);
-
+    core.debug(`param: force = "${debug}`);
 
 
     // Setup command options and arguments.
@@ -235,8 +236,8 @@ async function run() {
     if (chartVersion) args.push(`--version=${chartVersion}`);
     if (timeout) args.push(`--timeout=${timeout}`);
     if (repository) args.push(`--repo=${repository}`);
-    if (debug === true)  args.push(`--debug`);
-
+    if (debug === true) args.push(`--debug`);
+    if (force == true) args.push(`--force`);
     if (!isNaN(verbosity)) args.push(`--v=${verbosity}`);
 
     valueFiles.forEach(f => args.push(`--values=${f}`));
