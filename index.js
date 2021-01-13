@@ -180,8 +180,8 @@ async function run() {
     const repository = getInput("repository");
     const dryRun = core.getInput("dry-run");
     const secrets = getSecrets(core.getInput("secrets"));
+    const atomic = getInput("atomic") || true;
     const debug = getBooleanInput("debug");
-    const nonatomic = getBooleanInput("nonatomic");
     const verbosity = getIntInput("verbosity");
     const force = getBooleanInput("force");
     
@@ -202,8 +202,8 @@ async function run() {
     core.debug(`param: repository = "${repository}"`);
     core.debug(`param: debug = "${debug}"`);
     core.debug(`param: verbosity = "${verbosity}"`);
-    core.debug(`param: nonatomic = "${nonatomic}"`);
-    core.debug(`param: force = "${debug}`);
+    core.debug(`param: atomic = "${atomic}"`);
+    core.debug(`param: force = "${force}`);
 
 
     // Setup command options and arguments.
@@ -225,11 +225,6 @@ async function run() {
       process.env.HELM_HOME = "/root/.helm/"
     }
 
-    if (nonatomic === true) {
-      // no op
-    } else {
-      args.push(`--atomic`);
-    }
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
     if (version) args.push(`--set=app.version=${version}`);
@@ -237,9 +232,10 @@ async function run() {
     if (timeout) args.push(`--timeout=${timeout}`);
     if (repository) args.push(`--repo=${repository}`);
     if (debug === true) args.push(`--debug`);
-    if (force == true) args.push(`--force`);
+    if (force === true) args.push(`--force`);
+    // If true upgrade process rolls back changes made in case of failed upgrade.
+    if (atomic === true) args.push`--atomic`);
     if (!isNaN(verbosity)) args.push(`--v=${verbosity}`);
-
     valueFiles.forEach(f => args.push(`--values=${f}`));
     args.push("--values=./values.yml");
 
