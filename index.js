@@ -234,7 +234,7 @@ async function run() {
     if (debug === true) args.push(`--debug`);
     if (force === true) args.push(`--force`);
     // If true upgrade process rolls back changes made in case of failed upgrade.
-    if (atomic === true) args.push`--atomic`);
+    if (atomic === true) args.push(`--atomic`);
     if (!isNaN(verbosity)) args.push(`--v=${verbosity}`);
     valueFiles.forEach(f => args.push(`--values=${f}`));
     args.push("--values=./values.yml");
