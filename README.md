@@ -37,7 +37,7 @@ payload if the action was triggered by a deployment.
 - `repository`: specify the URL for a helm repo to come from
 - `debug`:  if `true` the action will add `--debug` to `helm` or `helm3` invocation. Also works if "t" or "y" or "yes" or "1" or "on" or any similar boolean value synonym. (default: off)
 - `force`:  if truthy, will run helm with `--force` (can be dangerous!)
-- `verbosity`: will set verbosity level for helm run, passing parameter as arg for `--v` flag supplied to `helm` or `helm3`.  Must be parseable as int, helm accepts values from 0 (lowest) to 6 (highest). 
+- `verbosity`: will set verbosity level for helm run, passing parameter as arg for `--v` flag supplied to `helm` or `helm3`.  Must be parseable as int, helm accepts values from 0 (lowest) to 6 (highest).
 - `atomic`: If true, upgrade process rolls back changes made in case of failed upgrade. Defaults to true.
 
 Additional parameters: If the action is being triggered by a deployment event

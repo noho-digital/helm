@@ -1,3 +1,4 @@
+---
 name: Deliverybot Helm Action
 description: Deploys a helm chart
 author: deliverybot
@@ -45,6 +46,16 @@ inputs:
   version:
     description: Version of the app, usually commit sha works here.
     required: false
+  force:
+    description: Runs helm with "--force" flag when true (default false)
+    required: false
+  debug:
+    description: Runs helm with "--debug" when true (default false)
+    required: false
+  verbosity:
+    description: Optionally sets helm verbosity level, accepts values from 0 (lowest) to 6 (highest).
+    required: false
+
 runs:
   using: docker
   image: Dockerfile
