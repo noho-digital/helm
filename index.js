@@ -203,7 +203,7 @@ async function run() {
     core.debug(`param: debug = "${debug}"`);
     core.debug(`param: verbosity = "${verbosity}"`);
     core.debug(`param: atomic = "${atomic}"`);
-    core.debug(`param: force = "${force}`);
+    core.debug(`param: force = "${force}"`);
 
 
     // Setup command options and arguments.
