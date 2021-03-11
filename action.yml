@@ -28,6 +28,9 @@ inputs:
   atomic:
     description: If true, upgrade process rolls back changes made in case of failed upgrade. Defaults to true.
     required: false
+  timeout:
+    description: Supply duration units to change timeout value (i.e "900s" or "5m")
+    required: false
   helm:
     description: Helm binary to execute, one of [helm, helm3].
     required: false
